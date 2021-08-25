@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="provider.mapper.BookMapper">
+    <resultMap id="BaseResultMap" type="common.entity.Book">
+        <id column="book_id" jdbcType="INTEGER" property="bookId" />
+        <result column="book_key" jdbcType="VARCHAR" property="bookKey" />
+        <result column="book_press" jdbcType="VARCHAR" property="bookPress" />
+        <result column="book_price" jdbcType="DOUBLE" property="bookPrice" />
+        <result column="classification" jdbcType="INTEGER" property="classification" />
+        <result column="book_author" jdbcType="VARCHAR" property="bookAuthor" />
+        <result column="book_name" jdbcType="VARCHAR" property="bookName" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        book_id, book_key, book_press, book_price, classification, book_author, book_name
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from book
+        where book_id = #{bookId,jdbcType=INTEGER}
+    </select>
+    <select id="getAllBooks" resultMap="BaseResultMap">
+        select * from book;
+    </select>
+    <select id="getBorrowedBooks" resultMap="BaseResultMap">
+        select * from book
+        where book_key
+                  in (select book_key from `order` where user_id = #{id} and book_status != 1);
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from book
+        where book_id = #{bookId,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" keyColumn="book_id" keyProperty="bookId" parameterType="common.entity.Book" useGeneratedKeys="true">
+        insert into book (book_key, book_press, book_price,
+                          classification, book_author, book_name
+        )
+        values (#{bookKey,jdbcType=VARCHAR}, #{bookPress,jdbcType=VARCHAR}, #{bookPrice,jdbcType=DOUBLE},
+                #{classification,jdbcType=INTEGER}, #{bookAuthor,jdbcType=VARCHAR}, #{bookName,jdbcType=VARCHAR}
+               )
+    </insert>
+    <insert id="insertSelective" keyColumn="book_id" keyProperty="bookId" parameterType="common.entity.Book" useGeneratedKeys="true">
+        insert into book
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="bookKey != null">
+                book_key,
+            </if>
+            <if test="bookPress != null">
+                book_press,
+            </if>
+            <if test="bookPrice != null">
+                book_price,
+            </if>
+            <if test="classification != null">
+                classification,
+            </if>
+            <if test="bookAuthor != null">
+                book_author,
+            </if>
+            <if test="bookName != null">
+                book_name,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="bookKey != null">
+                #{bookKey,jdbcType=VARCHAR},
+            </if>
+            <if test="bookPress != null">
+                #{bookPress,jdbcType=VARCHAR},
+            </if>
+            <if test="bookPrice != null">
+                #{bookPrice,jdbcType=DOUBLE},
+            </if>
+            <if test="classification != null">
+                #{classification,jdbcType=INTEGER},
+            </if>
+            <if test="bookAuthor != null">
+                #{bookAuthor,jdbcType=VARCHAR},
+            </if>
+            <if test="bookName != null">
+                #{bookName,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="common.entity.Book">
+        update book
+        <set>
+            <if test="bookKey != null">
+                book_key = #{bookKey,jdbcType=VARCHAR},
+            </if>
+            <if test="bookPress != null">
+                book_press = #{bookPress,jdbcType=VARCHAR},
+            </if>
+            <if test="bookPrice != null">
+                book_price = #{bookPrice,jdbcType=DOUBLE},
+            </if>
+            <if test="classification != null">
+                classification = #{classification,jdbcType=INTEGER},
+            </if>
+            <if test="bookAuthor != null">
+                book_author = #{bookAuthor,jdbcType=VARCHAR},
+            </if>
+            <if test="bookName != null">
+                book_name = #{bookName,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where book_id = #{bookId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="common.entity.Book">
+        update book
+        set book_key = #{bookKey,jdbcType=VARCHAR},
+            book_press = #{bookPress,jdbcType=VARCHAR},
+            book_price = #{bookPrice,jdbcType=DOUBLE},
+            classification = #{classification,jdbcType=INTEGER},
+            book_author = #{bookAuthor,jdbcType=VARCHAR},
+            book_name = #{bookName,jdbcType=VARCHAR}
+        where book_id = #{bookId,jdbcType=INTEGER}
+    </update>
+</mapper>

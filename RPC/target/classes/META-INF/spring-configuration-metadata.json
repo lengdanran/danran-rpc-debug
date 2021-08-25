@@ -1,0 +1,30 @@
+{
+  "groups": [
+    {
+      "name": "danran.rpc",
+      "type": "danran.rpc.properties.RpcProperties",
+      "sourceType": "danran.rpc.properties.RpcProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "danran.rpc.protocol",
+      "type": "java.lang.String",
+      "description": "服务协议",
+      "sourceType": "danran.rpc.properties.RpcProperties"
+    },
+    {
+      "name": "danran.rpc.register-address",
+      "type": "java.lang.String",
+      "description": "服务注册中心",
+      "sourceType": "danran.rpc.properties.RpcProperties"
+    },
+    {
+      "name": "danran.rpc.server-port",
+      "type": "java.lang.Integer",
+      "description": "服务端暴露端口",
+      "sourceType": "danran.rpc.properties.RpcProperties"
+    }
+  ],
+  "hints": []
+}
